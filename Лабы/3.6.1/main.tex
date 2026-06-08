@@ -1,0 +1,107 @@
+\documentclass[a4paper,12pt]{article} 
+
+%%% Работа с русским языком
+\usepackage{cmap}                           % поиск в PDF
+\usepackage{mathtext} 			 	       % русские буквы в формулах
+\usepackage[T2A]{fontenc}               % кодировка
+\usepackage[utf8]{inputenc}              % кодировка исходного текста
+\usepackage[english,russian]{babel}  % локализация и переносы
+\usepackage[left=2cm,right=2cm,
+    top=2cm,bottom=3cm,bindingoffset=0cm]{geometry}
+\usepackage{wrapfig}
+\usepackage{gensymb}
+\usepackage{textcomp}
+\usepackage{multirow}
+\usepackage{amsmath,amsfonts,amssymb,amsthm,mathtools} % AMS
+\usepackage{euscript}	 % Шрифт Евклид
+\usepackage{mathrsfs} % Красивый матшрифт
+\usepackage{graphicx}%Вставка картинок правильная
+\usepackage{float}%"Плавающие" картинки
+\usepackage{wrapfig}%Обтекание фигур (таблиц, картинок и прочего)
+\title{Лабораторная работа 3.6.1
+
+Спектральный анализ электрических сигналов}
+\author{Кагарманов Радмир Б01-106}
+\date{28 ноября 2022 г.}
+
+\begin{document}
+\maketitle
+\thispagestyle{empty}
+\newpage
+\setcounter{page}{1}
+
+\paragraph{Цель работы:}
+Изучить спектры электрических сигналов.
+\paragraph{В работе используетя:}
+генератор сигналов произвольной формы, цифровой осциллограф с функцией быстрого преобразования Фурье.
+\paragraph{Теория}
+\subparagraph{Разложение сложных сигналов на периодические колебания}
+Метод для описания сигналов. Для него используется разложение в сумму синусов и косинусов с различными аргументами или, как чаще его называют, \textit{разложение в ряд Фурье}.
+
+Пусть задана функция $f(t)$, которая периодически повторяется с частотой $\Omega_1 = \dfrac{2\pi}{T}$, где $T$ --- период повторения импульсов. Её разложение в ряд Фурье имеет вид 
+\begin{equation}
+f(t) = \dfrac{a_0}{2} + \sum\limits_{n = 1}^{\infty}\left[a_n \cos \left(n \Omega_1t\right) + b_n \sin \left(n \Omega_1t\right)\right]
+\end{equation}
+или
+\begin{equation}
+f(t) = \dfrac{a_0}{2} + \sum\limits_{n = 1}^{\infty}A_n \cos \left(n\Omega_1t-\psi_n\right)
+\end{equation}
+Если сигнал четен относительно $t=0$, так что $f(t) = f(-t)$ в тригонометрической записи остаются только косинусные члены. Для нечетной наоборот.
+
+Коэффициенты определяются по формуле
+\begin{equation}
+\begin{array}{c}
+a_n  = \dfrac{2}{T}\int\limits_{t_1}^{t_1+T}f(t)\cos\left(n \Omega_1 t\right) dt\\
+\\
+b_n = \dfrac{2}{T}\int\limits_{t_1}^{t_1+T}f(t)\sin\left(n \Omega_1 t\right) dt
+\end{array}
+\end{equation}
+Здесь $t_1$ --- время, с которого мы начинаем отсчет.
+
+Сравнив формулы $(1)$ и $(2)$ можно получить выражения для $A_n$  и $\psi_n$:
+\begin{equation}
+A_n = \sqrt{a_n^2+b_n^2};\psi_n = \arctan \dfrac{b_n}{a_n}
+\end{equation}
+\subparagraph{Периодическая последовательность прямоугольных импульсов}
+Введем некоторые величины:
+\[\Omega_1 = \dfrac{2\pi}{T}, \]
+где $T$ --- период повторения импульсов.
+
+Коэффициенты при косинусных составляющих будут равны
+\begin{equation}
+a_n = \dfrac{2}{T}\int\limits_{-\tau/2}^{\tau/2}V_0\cos\left(n\Omega_1 t\right)dt = 2V_0\dfrac{\tau}{T}\dfrac{\sin\left(n\Omega_1\tau/2\right)}{n\Omega_1\tau/2} \sim \dfrac{\sin x}{x}
+\end{equation}
+
+Здесь $V_0$ - амплитуда сигнала.
+
+Поскольку наша функция четная, то $b_n = 0$. 
+
+Пусть у нас $\tau$ кратно $T$. Тогда введем ширину спектра, равную $\Delta \omega$ --- расстояние от главного максимума до первого нуля огибающей, возникающего, как нетрудно убедится при $n = \dfrac{2\pi}{\tau \Omega_1}$. При 
+этом
+\begin{equation}
+\Delta \omega \tau \simeq 2\pi \Rightarrow \Delta \nu \Delta t \simeq 1
+\end{equation}
+\subparagraph{Периодическая последовательность цугов}
+Функция $f(t)$ снова является четной относительно $t = 0$. Коэффициент при $n$-ой гармонике согласно формуле $(3)$ равен
+\begin{equation}
+a_n = \dfrac{2}{T}\int\limits_{-\tau/2}^{\tau/2}V_0 \cos \left(\omega_0t\right) \cdot \cos\left(n \Omega_1t\right)dt = V_0 \dfrac{\tau}{T}\left( \dfrac{\sin\left[\left(\omega_0 - n \Omega_1\right)\dfrac{\tau}{2}\right]}{\left( \omega_0 - n \Omega_1\right) \dfrac{\tau}{2}} + \dfrac{\sin\left[\left(\omega_0 + n \Omega_1\right)\dfrac{\tau}{2}\right]}{\left( \omega_0 + n \Omega_1\right) \dfrac{\tau}{2}}\right)
+\end{equation}
+\subparagraph{Амплитудно-модулированные колебания}
+Рассмотрим гармонические колебания высокой частоты $\omega_0$, амплитуда которых медленно меняется по гармоническому закону с частотой $\Omega \ll \omega_0$.
+\begin{equation}
+f(t) = A_0 \left[1+m\cos \Omega t\right] \cos \omega_0 t
+\end{equation}
+Коэффициентом $m$ называется \textit{глубина модуляции}. При $m < 1$ амплитуда меняется от минимальной $A_{min} = A_0(1-m)$ до максимальной $A_{max} = A_0(1+m)$. Глубина модуляции может быть представлена в виде
+\begin{equation}
+m = \dfrac{A_{max}-A_{min}}{A_{max}+A_{min}}
+\end{equation}
+Простым тригонометрическим преобразованием уравнения $(9)$ можно найти спектр колебаний
+\begin{equation}
+f(t) = A_0 \cos \omega_0t + \dfrac{A_0m}{2} \cos \left(\omega_0 + \Omega\right)t + \dfrac{A_0m}{2}\cos\left(\omega_0 - \Omega\right)t
+\end{equation}
+
+\paragraph{Обработка результатов}
+
+\subparagraph{1.}
+
+\end{document}

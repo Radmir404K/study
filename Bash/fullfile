@@ -1,0 +1,25 @@
+Result of Test1 is
+1
+Ans of Test1 is
+1
+
+Test1 не прошёл тест
+Result of Test2 is
+2
+Ans of Test2 is
+2
+ansfile Ans/Test2 различаются: байт 2, строка 1 равен 15 ^M 12 ^J
+Test2 не прошёл тест
+Result of Test3 is
+3
+Ans of Test3 is
+3
+ansfile Ans/Test3 различаются: байт 2, строка 1 равен 15 ^M 12 ^J
+Test3 не прошёл тест
+Result of Test4: is
+
+Ans of Test4: is
+
+Test4: не прошёл тест
+correct 0
+incorrect 4
